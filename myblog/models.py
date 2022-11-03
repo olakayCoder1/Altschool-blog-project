@@ -8,7 +8,6 @@ from myblog import login_manager
 def load_user(user_id):
     return User.query.get(int (user_id))
 
-    
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer(), primary_key=True)
