@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<link rel="stylesheet" href="{{ url_for('static' , filename='css/post-details.css') }}">
+<title>{{ post.title }}</title>
+{% endblock %}
+
+{% block content %}
+<main style="margin-top: 70px;">
+    <div class="detail-container">
+        <div class="post-detail-container">
+            <div style="display:flex ; justify-content:space-between;" >
+                <div class="post-detail-container-header"   >
+                    <img src="{{ url_for('static' , filename='img/flower.jpeg') }}"  class="detail-author-img"/>
+                    <div class="au-own">
+                        <h2>{{post.post_author}}</h2>
+                        <time>posted on :  {{ post.date_posted.strftime("%A %m %Y") }}</time>
+                    </div>
+                </div>
+                {% if post.post_author.id == current_user.id%}
+                <div style="display:flex ; gap: 20px; align-items: center;">
+                    <a href="{{ url_for('post_edit' , id=post.id) }}" style="padding:4px 16px ; border: 1px solid green; border-radius :10px; color: white; background-color: green; text-decoration: none;">Edit</a>
+                    <a href="{{ url_for('post_delete' , id=post.id) }}" style="padding:4px 16px ; border: 1px solid red; border-radius :10px; color: white; background-color: red; text-decoration: none;">Delete</a>
+                </div>
+                {% endif%}
+            </div>
+            <h2 class="detail-title">{{ post.title}}</h2>
+            {% if post.image %}
+            <img src="{{ post.image }}" class="detail-post-img" id="details-img" />
+            {% endif %}
+            <p class="blog-overview">{{ post.content }}.</p>
+            <h2 style="margin: 10px 30px 0px;">Read more</h2> 
+            <section class="blogs-section" style="padding: 10px 0;">
+                {% for post in more %}
+                <div class="blog-card">
+                    <img src="{{ post.image  }}" class="blog-image"  alt="" >
+                    <h1 class="blog-title">{{ post.title }}</h1>
+                    <p class="blog-overview">{{ post.content| truncate(100,True,'',0) }}.</p>
+                    <!-- <p class="blog-overview">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt incidunt fugiat quos porro repellat harum. Adipisci tempora corporis rem cum.</p> -->
+                    <a href="{{ url_for('post_details_page' , id=post.id) }}" class="btn dark">read</a>
+                </div>
+                {% endfor %} 
+            </section>
+        </div>
+    </div>
+</main>
+{% endblock %}

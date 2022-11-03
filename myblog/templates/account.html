@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<link rel="stylesheet" href="{{ url_for('static' , filename='css/account.css') }}">
+<title>Account</title>
+{% endblock %}
+
+{% block content %}
+<div style="margin-top:50px ;" class="main-about">
+    <div class="about-container">
+        <div class="about-header">
+            <img src="{{ url_for('static' , filename='img/flower.jpeg') }}" alt="">
+            <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+            <p>@{{ user.username }}</p>
+            <p>{{ user.email }}</p>
+        </div>
+    </div>
+    <hr>
+   {% if posts %}
+    <h3 style="text-align:center ; margin-top: 20px;line-height: 1.725rem; font-size: 1.989rem;">Your Posts</h3>
+    <section class="blogs-section" style="margin-top:30px ; ">
+        {% for post in posts %}
+        <div class="blog-card">
+            <img src="{{ post.image }}" class="blog-image" alt="">
+            <h1 class="blog-title">{{ post.title }}</h1>
+            <p class="blog-overview">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt incidunt fugiat quos porro repellat harum. Adipisci tempora corporis rem cum.</p>
+            <a href="{{ url_for('post_details_page' , id=post.id ) }}" class="btn dark">read</a>
+            {% if post.post_author.id == current_user.id%}
+            <a href="{{ url_for('post_edit' , id=post.id ) }}" class="btn dark" style="background-color:green ;">Edit</a>
+            <a href="{{ url_for('post_delete' , id=post.id ) }}" class="btn dark" style="background-color:red ;">Delete</a>
+            {% endif %}
+        </div>
+        {% endfor %} 
+    </section>
+    {% else %}
+        <h3 style="text-align:center ; margin-top: 20px;line-height: 1.725rem; font-size: 1.989rem;">No posts from you yet <a href="">write</a></h3>
+    {% endif %}
+</div>
+{% endblock %}

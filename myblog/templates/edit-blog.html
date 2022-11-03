@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>{{ post.title }}</title>
+{% endblock %}
+
+{% block content %}
+<form  style="margin-top:50px ;" method="post" enctype="multipart/form-data" >  
+    <img src="{{ post.image }}" class="detail-post-img" id="details-img" />  
+    <div class="blog"> 
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category , message in messages %}
+                {% if category == 'success' %}
+                    <p class="success">{{ message}}</p>
+                {% else %}
+                    <p class="error">{{ message}}</p>
+                {% endif%}
+            {% endfor%}
+        {% endif %}
+    {% endwith%} 
+        <input type="text" class="title" placeholder="Blog title..." value="{{post.title}}" name="title"></input>
+        <textarea type="text" class="article" placeholder="Start writing here..." rows="16" name="content" >{{ post.content}}</textarea>
+    </div>
+    <div class="blog-options">
+        <button class="btn dark publish-btn">Update</button>
+        <input type="file" accept="image/*"  id="image-upload" name="image"  style="display:none;">
+        <p class="btn grey upload-btn" id="handle-pic" onclick="handleImagePic()">Change Image</p>
+    </div>
+</form>
+{% endblock %}
+{% block script %}
+<script>
+    const image_input = document.getElementById('handle-pic')
+    const handleImagePic = () => {
+        console.log('clicked')
+        const image = document.getElementById('image-upload')
+        image.click() 
+    }
+</script>
+{% endblock %}

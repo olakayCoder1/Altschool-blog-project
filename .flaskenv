@@ -1,0 +1,2 @@
+FLASK_APP=myblog
+FLASK_DEBUG=True

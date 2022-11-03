@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}
+<link rel="stylesheet" href="{{ url_for('static' , filename='css/home.css') }}">
+<title>Blogs</title>
+{% endblock %}
+{% block content %}
+<form  style="margin-top:50px ;" enctype="multipart/form-data" method="post">        
+    <div class="blog">  
+        <input type="text" class="title" placeholder="Blog title..." name="title" required ></input>
+        <textarea type="text" class="article" placeholder="Start writing here..." rows="10" name="content" required></textarea>
+    </div>
+    <div class="blog-options">
+        <button class="btn dark publish-btn">publish</button>
+        <input type="file" accept="image/*"  id="image-upload" name="image"  style="display:none;">
+        <p class="btn grey upload-btn" id="handle-pic" onclick="handleImagePic()">Upload Image</p>
+    </div>
+</form>
+{% endblock %}
+{% block script %}
+<script>
+    const image_input = document.getElementById('handle-pic')
+    const handleImagePic = () => {
+        console.log('clicked')
+        const image = document.getElementById('image-upload')
+        image.click() 
+    }
+</script>
+{% endblock %}

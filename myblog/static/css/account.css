@@ -1,0 +1,22 @@
+.main-about{
+    width: 100%;
+    height: 100%;
+    
+}
+.about-container{
+    text-align: center;
+    padding: 50px 10px;
+    background-color: rgb(62, 60, 60);
+    color: #fff;
+}
+
+.about-header img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+.about-header p{
+    font-size: 0.989rem;
+    font-weight: 500;
+    line-height: 1.725rem;
+}
