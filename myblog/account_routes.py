@@ -14,7 +14,10 @@ from threading import Thread
 
 @app.route('/account')
 @login_required
-def account():   
+def account(): 
+    print("***"*100)
+    print(request.referrer)
+    print("***"*100)  
     user = User.query.get_or_404(current_user.id)
     posts = Post.query.filter_by(author=user.id)
     return render_template('account.html', user=user , posts=posts)
@@ -26,23 +29,49 @@ def account_edit():
     form = AccountForm()
     if request.method == 'POST':
         user = User.query.get(current_user.id)
-        user.username = request.files.get('username', None)
-        user.last_name = request.files.get('last_name', None)
-        user.first_name = request.files.get('first_name', None)
+        username = request.form.get('username', None)
+        last_name = request.form.get('last_name', None)
+        first_name = request.form.get('first_name', None)
+        email = request.form.get('email', None)
         image = request.files.get('image', None)
-        if image != None:
+
+        """
+        check if the updated email is same as the current email 
+        else : check if there is a user with the email
+        """
+        if current_user.email != email :
+            user = User.query.filter_by(email=email).first()
+            if user :
+                flash('Email already exist ', 'error')
+                return render_template('account-edit.html' , form=form)
+        """
+        check if the updated username is same as the current email 
+        else : check if there is a user with the username
+        """
+        if current_user.username != username :
+            user = User.query.filter_by(username=username).first()
+            if user :
+                flash('Username already exist ', 'error')
+                return render_template('account-edit.html' , form=form)
+        
+        print("****"*100)
+        print(image.filename)
+        print("****"*100)
+        if image != None : 
             filename =  secure_filename(image.filename)
             name = 'profiles_' + str(uuid.uuid1()) + '_' + filename
             image_url = url_for('static', filename='uploads/' + name )
             user.image = image_url
         try:
             user.save()
-            if image != None:
+            if image != None :
                 image.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER'] , name))
         except:
             db.session.rollback()
-            flash('An error occured updating ')
+            flash('An error occurred updating ', 'error')
             return render_template('account-edit.html' , form=form)
+        flash('Account updated successfully', 'success')
+        return redirect(url_for('account'))
     return render_template('account-edit.html' , form=form)
 
 
@@ -59,19 +88,14 @@ def register():
         if email_exist:
             flash('Email already exist')
             return render_template('register.html', form=form)
-        public_id = uuid.uuid4().int & (1<<64)-1
+        public_id = str(uuid.uuid4().int & (1<<64)-1)
         new_user = User(username=form.username.data , email=form.email.data , first_name=form.first_name.data , last_name=form.last_name.data , password=form.password1.data , public_id=public_id)
         try:
-            db.session.add(new_user)
-            db.session.commit()
-            # new_user.save() 
+            new_user.save() 
         except:
-            print('****'*100)
-            print(public_id)
-            print('****'*100)
             db.session.rollback()
         login_user(new_user)
-        # return redirect(url_for('posts_page'))
+        return redirect(url_for('posts_page'))
     return render_template('register.html', form=form)
 
 

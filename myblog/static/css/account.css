@@ -20,3 +20,27 @@
     font-weight: 500;
     line-height: 1.725rem;
 }
+
+
+.account-edit {
+    width: 100%;
+    max-width: 800px ;
+    margin: 20px auto;
+    padding-bottom: 70px;
+}
+.account-edit label{
+    font-size: 1.032rem;
+    font: 600;
+}
+.account-edit input{
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 1.29rem;
+    line-height: 1.5rem;
+    font: 700;
+    outline: none;
+    border-bottom: 1px solid inherit;
+}
+.account-edit input:focus{
+
+}

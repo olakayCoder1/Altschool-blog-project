@@ -5,7 +5,11 @@
 
 {% block content %}
 <form  style="margin-top:50px ;" method="post" enctype="multipart/form-data" >  
-    <img src="{{ post.image }}" class="detail-post-img" id="details-img" />  
+    {% if post.image %}
+    <img src="{{ post.image }}" class="detail-post-img" id="details-img" /> 
+    {% else %}
+        <img src="{{ url_for('static' , filename='img/logo1.jpeg')   }}"  class="detail-author-img"/>
+    {% endif %} 
     <div class="blog"> 
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}

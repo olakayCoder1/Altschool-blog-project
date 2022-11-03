@@ -125,3 +125,15 @@ body{
 #details-img{
     height: 500px;
 }
+
+.blog-card:hover{
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    border: 1px solid;
+    padding: 20px 10px;
+    box-shadow: 5px 10px 8px 10px #888888;
+    border-radius: 20px;
+}
+
+@media screen {
+    
+}

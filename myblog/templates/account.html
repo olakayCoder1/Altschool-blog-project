@@ -9,7 +9,11 @@
 <div style="margin-top:50px ;" class="main-about">
     <div class="about-container">
         <div class="about-header">
-            <img src="{{ url_for('static' , filename='img/flower.jpeg') }}" alt="">
+            {% if user.image %}
+            <img src="{{ user.image   }}" alt="">
+            {% else %}
+            <img src="{{ url_for('static' , filename='img/image-default.png')   }}"  class="detail-author-img"/>
+            {% endif %}
             <h1>{{ user.first_name }} {{ user.last_name }}</h1>
             <p>@{{ user.username }}</p>
             <p style="margin-bottom:20px ;" >{{ user.email }}</p>
@@ -17,6 +21,17 @@
         </div>
     </div>
     <hr>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category , message in messages %}
+            {% if category == 'success' %}
+                <p class="success">{{ message}}</p>
+            {% else %}
+                <p class="error">{{ message}}</p>
+            {% endif%}
+        {% endfor%}
+    {% endif %}
+{% endwith%}
    {% if posts %}
     <h3 style="text-align:center ; margin-top: 20px;line-height: 1.725rem; font-size: 1.989rem;">Your Posts</h3>
     <section class="blogs-section" style="margin-top:30px ; ">

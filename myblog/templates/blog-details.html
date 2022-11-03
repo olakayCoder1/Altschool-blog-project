@@ -11,7 +11,11 @@
         <div class="post-detail-container">
             <div style="display:flex ; justify-content:space-between;" >
                 <div class="post-detail-container-header"   >
-                    <img src="{{ url_for('static' , filename='img/flower.jpeg') }}"  class="detail-author-img"/>
+                    {% if post.image %}
+                    <img src="{{ post.post_author.image  }}"  class="detail-author-img"/>
+                    {% else %}
+                    <img src="{{ url_for('static' , filename='img/image-default.png')   }}"  class="detail-author-img"/>
+                    {% endif %}
                     <div class="au-own">
                         <h2>{{post.post_author}}</h2>
                         <time>posted on :  {{ post.date_posted.strftime("%A %m %Y") }}</time>

@@ -7,7 +7,11 @@
 <section class="blogs-section" style="margin-top:30px ;">
     {% for post in posts %}
     <div class="blog-card">
-        <img src="{{ post.image }}" class="blog-image" alt="">  
+        {% if post.image %}
+        <img src="{{ post.image }}" class="blog-image" alt=""> 
+        {% else %}
+        <img src="{{ url_for('static' , filename='img/logo1.jpeg')   }}"  class="detail-author-img"/>
+        {% endif %}
         <h1 class="blog-title">{{ post.title }}</h1>
         <p class="blog-overview">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt incidunt fugiat quos porro repellat harum. Adipisci tempora corporis rem cum.</p>
         <a href="{{ url_for('post_details_page' , public_id=post.public_id ) }}" class="btn dark">read</a>
@@ -18,4 +22,4 @@
     </div>    
     {% endfor %} 
 </section>
-{% endblock  %}
+{% endblock  %} 

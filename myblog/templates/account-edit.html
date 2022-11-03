@@ -2,39 +2,69 @@
 
 {% block title %}
 <link rel="stylesheet" href="{{ url_for('static' , filename='css/account.css') }}">
-<title>Account</title>
+<title>Profile Edit</title>
 {% endblock %}
 
 {% block content %}
 <div style="margin-top:50px ;" class="main-about">
     <div class="about-container">
         <div class="about-header">
-            <img src="{{ url_for('static' , filename='img/flower.jpeg') }}" alt="">
-            <h1>{{ user.first_name }} {{ user.last_name }}</h1>
-            <p>@{{ user.username }}</p>
-            <p style="margin-bottom:20px ;" >{{ user.email }}</p>
-            <a href="{{ url_for('account_edit') }}" class="btn dark publish-btn" style="background-color: white; color:black; font-size:1.032rem" >Edit profile</a>
+            {% if current_user.image %}
+            <img src="{{ current_user.image   }}" alt="">
+            {% else %}
+            <img src="{{ url_for('static' , filename='img/image-default.png')   }}"  class="detail-author-img"/>
+            {% endif %}
+            <h1>{{ current_user.first_name }} {{ current_user.last_name }}</h1>
+            <p>@{{ current_user.username }}</p>
+            <p style="margin-bottom:20px ;" >{{ current_user.email }}</p>
         </div>
     </div>
     <hr>
-   {% if posts %}
-    <h3 style="text-align:center ; margin-top: 20px;line-height: 1.725rem; font-size: 1.989rem;">Your Posts</h3>
-    <section class="blogs-section" style="margin-top:30px ; ">
-        {% for post in posts %}
-        <div class="blog-card">
-            <img src="{{ post.image }}" class="blog-image" alt="">
-            <h1 class="blog-title">{{ post.title }}</h1>
-            <p class="blog-overview">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt incidunt fugiat quos porro repellat harum. Adipisci tempora corporis rem cum.</p>
-            <a href="{{ url_for('post_details_page' , public_id=post.public_id ) }}" class="btn dark">read</a>
-            {% if post.post_author.id == current_user.id%}
-            <a href="{{ url_for('post_edit' , public_id=post.public_id ) }}" class="btn dark" style="background-color:green ;">Edit</a>
-            <a href="{{ url_for('post_delete' , public_id=post.public_id ) }}" class="btn dark" style="background-color:red ;">Delete</a>
-            {% endif %}
+   <form  class="account-edit"  method="post" enctype="multipart/form-data" style=" margin-top: 20px;line-height: 1.725rem; font-size: 1.989rem;">
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category , message in messages %}
+                {% if category == 'success' %}
+                    <p class="success">{{ message}}</p>
+                {% else %}
+                    <p class="error">{{ message}}</p>
+                {% endif%}
+            {% endfor%}
+        {% endif %}
+    {% endwith%}
+        <div class="account-edit-input-container">
+            <label for="first_name">First name</label>
+            <input type="text" value="{{ current_user.first_name }}" name="first_name">
         </div>
-        {% endfor %} 
-    </section>
-    {% else %}
-        <h3 style="text-align:center ; margin-top: 20px;line-height: 1.725rem; font-size: 1.989rem;">No posts from you yet <a href="">write</a></h3>
-    {% endif %}
+        <div class="account-edit-input-container">
+            <label for="last_name">Last name</label>
+            <input type="text" value="{{ current_user.last_name }}" name="last_name">
+        </div>
+        <div class="account-edit-input-container">
+            <label for="username">Username</label>
+            <input type="text" value="{{ current_user.username }}" name="username">
+        </div>
+        <div class="account-edit-input-container">
+            <label for="email">Email </label>
+            <input type="email" value="{{ current_user.email }}" name="email">
+        </div>
+        <div class="blog-options">
+            <button class="btn dark publish-btn">Update Profile</button>
+            <input type="file" accept="image/*"  id="image-upload" name="image"  style="display:none;">
+        <p class="btn grey upload-btn" id="handle-pic" onclick="handleImagePic()">Change Profile Image</p>
+   </form>
+   
 </div>
+    
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    const image_input = document.getElementById('handle-pic')
+    const handleImagePic = () => {
+        console.log('clicked')
+        const image = document.getElementById('image-upload')
+        image.click() 
+    }
+</script>
 {% endblock %}
