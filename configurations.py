@@ -17,7 +17,7 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG=True
     SQLALCHEMY_ECHO=True
-    SQLALCHEMY_DATABASE_URI='sqlite:///'+os.path.join(BASE_DIR, 'database.sqlite3' )
+    SQLALCHEMY_DATABASE_URI='sqlite:///'+os.path.join(BASE_DIR, 'db.sqlite3' )
     UPLOAD_FOLDER = UPLOAD_FOLDER 
     EMAIL_SENDER_MAIL = os.getenv('EMAIL_SENDER') 
     EMAIL_SENDER_PASSWORD = os.getenv('EMAIL_PASSWORD') 

@@ -19,8 +19,8 @@
                 </div>
                 {% if post.post_author.id == current_user.id%}
                 <div style="display:flex ; gap: 20px; align-items: center;">
-                    <a href="{{ url_for('post_edit' , id=post.id) }}" style="padding:4px 16px ; border: 1px solid green; border-radius :10px; color: white; background-color: green; text-decoration: none;">Edit</a>
-                    <a href="{{ url_for('post_delete' , id=post.id) }}" style="padding:4px 16px ; border: 1px solid red; border-radius :10px; color: white; background-color: red; text-decoration: none;">Delete</a>
+                    <a href="{{ url_for('post_edit' , public_id=post.public_id) }}" style="padding:4px 16px ; border: 1px solid green; border-radius :10px; color: white; background-color: green; text-decoration: none;">Edit</a>
+                    <a href="{{ url_for('post_delete' , public_id=post.public_id) }}" style="padding:4px 16px ; border: 1px solid red; border-radius :10px; color: white; background-color: red; text-decoration: none;">Delete</a>
                 </div>
                 {% endif%}
             </div>
@@ -37,7 +37,7 @@
                     <h1 class="blog-title">{{ post.title }}</h1>
                     <p class="blog-overview">{{ post.content| truncate(100,True,'',0) }}.</p>
                     <!-- <p class="blog-overview">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt incidunt fugiat quos porro repellat harum. Adipisci tempora corporis rem cum.</p> -->
-                    <a href="{{ url_for('post_details_page' , id=post.id) }}" class="btn dark">read</a>
+                    <a href="{{ url_for('post_details_page' , public_id=post.public_id) }}" class="btn dark">read</a>
                 </div>
                 {% endfor %} 
             </section>

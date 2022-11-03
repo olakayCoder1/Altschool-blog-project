@@ -1,2 +1,2 @@
-FLASK_APP=myblog
+FLASK_APP=run
 FLASK_DEBUG=True

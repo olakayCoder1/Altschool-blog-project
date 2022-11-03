@@ -6,7 +6,7 @@ from myblog import login_manager
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int (user_id))
+    return User.get(user_id)
 
 
 class User(db.Model, UserMixin):
@@ -20,6 +20,18 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(64) , nullable=False )
     created_at = db.Column(db.DateTime() , nullable=False , default=datetime.utcnow)
     post = db.relationship('Post', backref='post_author', lazy=True) 
+
+
+    @classmethod
+    def get(cls, id:int ):
+        return cls.query.get(id)
+
+    @classmethod
+    def email_exist(cls, email:str ):
+        user = cls.query.filter_by(email=email).first()
+        if user :
+            return True
+        return False
 
 
     @property

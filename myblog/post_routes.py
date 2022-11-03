@@ -4,14 +4,21 @@ from flask_login import current_user , login_required
 from myblog.models import User , Post
 from werkzeug.utils import secure_filename
 import os
-from uuid import uuid1
+import uuid
 
 
 
 @app.route('/posts')
 def posts_page():
-    # for m in Post.query.all():
-    #     db.session.delete(m) 
+    for m in Post.query.all():
+        public_id = uuid.uuid4().int & (1<<64)-1
+        print(current_user)
+        new_post = Post(title='wiowwow', content='sjjsjsjs' , author=1, public_id=public_id)
+        try:
+            new_post.save()
+        except:
+            db.session.rollback()
+        # db.session.delete(m) 
     # db.session.commit()
     posts = Post.query.all()
     users = User.query.all()
@@ -22,9 +29,8 @@ def posts_page():
 def post_details_page(public_id):
     post = Post.query.filter_by(public_id=public_id).first()
     if post:
-        more = Post.query.filter(Post.id != post.id).limit(2) 
+        more = Post.query.filter(Post.id != post.id ).limit(2) 
         return render_template('blog-details.html', post=post ,  more=more)
-    return redirect(url_for('page_not_found'))
 
 
 
@@ -40,19 +46,24 @@ def post_create():
         title = request.form.get('title')
         content = request.form.get('content')
         image = request.files.get('image', None)
-        new_post = Post(title=title , content=content , author=current_user.id)
-        if image != None:
+        public_id = str(uuid.uuid4().int & (1<<64)-1)
+        new_post = Post(title=title , content=content , author=1, public_id=public_id)
+        print('****'*100)
+        print(len(image.filename))
+        print('****'*100)
+        if len(image.filename) != 0 : 
             filename =  secure_filename(image.filename)
-            name = 'posts_' + str(uuid1()) + '_' + filename
+            name = 'posts_' + str(uuid.uuid1()) + '_' + filename
             image_url = url_for('static', filename='uploads/' + name )
             new_post.image = image_url
         try:
-            new_post.save()
-            if image != None:
-                image.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER'] , name))
+            new_post.save() 
         except:
-            db.session.rollback()
-        return redirect(url_for('post_details_page', id=new_post.id))
+            db.session.rollback()   
+            return render_template('editor.html')
+        if len(image.filename) != 0:
+            image.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER'] , name))
+        return redirect(url_for('post_details_page', public_id=new_post.public_id)) 
     return render_template('editor.html')
 
 
@@ -61,26 +72,24 @@ def post_create():
 def post_edit(public_id):
     post = Post.query.filter_by(public_id=public_id).first()
     if post:
-
-        post = Post.query.get_or_404(id)
         if request.method == 'POST':
             post.title = request.form.get('title')
             post.content = request.form.get('content')
             image = request.files.get('image', None)  
-            if image != None:
+            if len(image.filename) != 0 :
                 filename =  secure_filename(image.filename)
-                name = 'posts_' + str(uuid1()) + '_' + filename
+                name = 'posts_' + str(uuid.uuid1()) + '_' + filename
                 image_url = url_for('static', filename='uploads/' + name )
                 post.image = image_url
             try:
                 post.save()
-                if image != None:
+                if len(image.filename) != 0 :
                     image.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER'] , name))
             except:
                 db.session.rollback()
                 flash('An error occurred while updating blog, try again', 'err')
                 return render_template('edit-blog.html', post=post)
-            return redirect(url_for('post_details_page' , id=post.id ))
+            return redirect(url_for('post_details_page' , public_id=post.public_id ))
         return render_template('edit-blog.html', post=post)
     return redirect(url_for('page_not_found'))
     

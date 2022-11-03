@@ -25,8 +25,7 @@ def account():
 def account_edit():
     form = AccountForm()
     if request.method == 'POST':
-        user = User.query.get(1)
-        # user = User.query.get(current_user.id)
+        user = User.query.get(current_user.id)
         user.username = request.files.get('username', None)
         user.last_name = request.files.get('last_name', None)
         user.first_name = request.files.get('first_name', None)
@@ -60,11 +59,16 @@ def register():
         if email_exist:
             flash('Email already exist')
             return render_template('register.html', form=form)
-        new_user = User(username=form.username.data , email=form.email.data , first_name=form.first_name.data , last_name=form.last_name.data , password=form.password1.data )
-        new_user.public_id = uuid.uuid4().int & (1<<64)-1
+        public_id = uuid.uuid4().int & (1<<64)-1
+        new_user = User(username=form.username.data , email=form.email.data , first_name=form.first_name.data , last_name=form.last_name.data , password=form.password1.data , public_id=public_id)
         try:
-            new_user.save()
+            db.session.add(new_user)
+            db.session.commit()
+            # new_user.save() 
         except:
+            print('****'*100)
+            print(public_id)
+            print('****'*100)
             db.session.rollback()
         login_user(new_user)
         # return redirect(url_for('posts_page'))

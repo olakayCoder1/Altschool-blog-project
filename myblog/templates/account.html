@@ -12,7 +12,8 @@
             <img src="{{ url_for('static' , filename='img/flower.jpeg') }}" alt="">
             <h1>{{ user.first_name }} {{ user.last_name }}</h1>
             <p>@{{ user.username }}</p>
-            <p>{{ user.email }}</p>
+            <p style="margin-bottom:20px ;" >{{ user.email }}</p>
+            <a href="{{ url_for('account_edit') }}" class="btn dark publish-btn" style="background-color: white; color:black; font-size:1.032rem" >Edit profile</a>
         </div>
     </div>
     <hr>
@@ -24,10 +25,10 @@
             <img src="{{ post.image }}" class="blog-image" alt="">
             <h1 class="blog-title">{{ post.title }}</h1>
             <p class="blog-overview">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt incidunt fugiat quos porro repellat harum. Adipisci tempora corporis rem cum.</p>
-            <a href="{{ url_for('post_details_page' , id=post.id ) }}" class="btn dark">read</a>
+            <a href="{{ url_for('post_details_page' , public_id=post.public_id ) }}" class="btn dark">read</a>
             {% if post.post_author.id == current_user.id%}
-            <a href="{{ url_for('post_edit' , id=post.id ) }}" class="btn dark" style="background-color:green ;">Edit</a>
-            <a href="{{ url_for('post_delete' , id=post.id ) }}" class="btn dark" style="background-color:red ;">Delete</a>
+            <a href="{{ url_for('post_edit' , public_id=post.public_id ) }}" class="btn dark" style="background-color:green ;">Edit</a>
+            <a href="{{ url_for('post_delete' , public_id=post.public_id ) }}" class="btn dark" style="background-color:red ;">Delete</a>
             {% endif %}
         </div>
         {% endfor %} 

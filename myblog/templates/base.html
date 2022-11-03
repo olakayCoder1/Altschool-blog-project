@@ -18,7 +18,14 @@
         <ul class="links-container">
             <li class="link-item"><a href="/" class="link">home</a></li>
             <li class="link-item"><a href="{{url_for('posts_page')}}" class="link">Blogs</a></li>
-            
+            {% if current_user.is_authenticated %}
+            <li class="link-item"><a href="{{url_for('post_create')}}" class="link">Write</a></li>
+            <li class="link-item"><a href="{{url_for('account')}}" class="link">Account</a></li>
+            <li class="link-item"><a href="{{url_for('logout')}}" class="link">Logout</a></li>
+            {% else %}
+            <li class="link-item"><a href="{{url_for('login')}}" class="link">Login</a></li>
+            <li class="link-item"><a href="{{url_for('register')}}" class="link">Register</a></li>
+            {% endif %}
         </ul>
     </nav>
 
