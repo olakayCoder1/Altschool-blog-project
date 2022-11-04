@@ -53,10 +53,6 @@ def account_edit():
             if user :
                 flash('Username already exist ', 'error')
                 return render_template('account-edit.html' , form=form)
-        
-        print("****"*100)
-        print(image.filename)
-        print("****"*100)
         if image != None : 
             filename =  secure_filename(image.filename)
             name = 'profiles_' + str(uuid.uuid1()) + '_' + filename
