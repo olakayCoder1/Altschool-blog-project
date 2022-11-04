@@ -132,7 +132,8 @@ def password_reset_email():
             Thread(target=MailService.send_reset_mail, kwargs={
                     'email': user.email ,'token': token , 'public_id':public_id
                 }).start()
-    flash('Instruction to reset your password has been sent to the provided email') 
+        flash('Instruction to reset your password has been sent to the provided email', 'success') 
+        return render_template('password-reset-request.html' , form=form)
     return render_template('password-reset-request.html' , form=form)
 
 
