@@ -114,9 +114,9 @@ class TokenService:
 
 
 
-    def create_password_reset_token(user_public_id)-> str :
+    def create_password_reset_token(user_id)-> str :
         try:
-            user = User.query.get(user_public_id)
+            user = User.query.get(user_id)
         except Exception as e :
             return None
         reset_token = secrets.token_hex(20) + secrets.token_urlsafe(20)
@@ -131,12 +131,13 @@ class TokenService:
 
     def validate_password_token(token:str , user_public_id):
         try:
-            user = User.query.get(user_public_id)
+            user = User.query.filter_by(public_id=user_public_id).first()
         except Exception as e :
             return False
-        token_object = Token.query.filter_by(user=user_public_id, token=token , has_blacklisted=False , is_password=True).first()
+        token_object = Token.query.filter_by(user=user.id, token=token , is_blacklisted=False , is_password=True).first()
+
         if token_object:
-            token_object.has_blacklisted = True
+            token_object.is_blacklisted = True
             try:
                 token_object.save()
             except:

@@ -9,20 +9,21 @@ import uuid
 
 
 @app.route('/posts')
+@login_required
 def posts_page():
-    for m in Post.query.all():
-        public_id = uuid.uuid4().int & (1<<64)-1
-        print(current_user)
-        new_post = Post(title='wiowwow', content='sjjsjsjs' , author=1, public_id=public_id)
-        try:
-            new_post.save()
-        except:
-            db.session.rollback()
-        # db.session.delete(m) 
-    # db.session.commit()
-    posts = Post.query.all()
+    posts = Post.query.order_by(Post.date_posted.desc())
     users = User.query.all()
-    return render_template('blog.html', posts=posts)
+
+    page = request.args.get('page')
+
+    if page and page.isdigit():
+        try:
+            page = int(page)
+        except:
+            page = 1
+        
+    pages = posts.paginate(page=page , per_page=6)
+    return render_template('blog.html', posts=posts , pages=pages)
 
 
 @app.route('/posts/<public_id>')

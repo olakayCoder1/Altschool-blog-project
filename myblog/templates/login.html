@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="{{ url_for('static' , filename='img/logo12.jpeg') }}" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static' , filename='css/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static' , filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static' , filename='css/editor.css') }}">
     <title>Login</title>
 </head>
 <body>
@@ -29,7 +32,7 @@
                 {{ form.password(placeholder='Password') }}
                 {{ form.submit(class="custom-button")}}
             </form>
-            <a href="{{ url_for('password_reset_email')}}">Forget password ?</a>
+            <a href="{{ url_for('password_reset_email')}}" style="margin: 20px 10px ;">Forget password ?</a>
             <p>Need an account? <a href="register">Sign Up</a></p>
         </div>
     </div>

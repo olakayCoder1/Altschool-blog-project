@@ -3,7 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+html {
+    scroll-behavior: smooth;
+}
 body{
     width: 100%;
     position: relative;
@@ -58,7 +60,7 @@ body{
     margin-top: 60px;
     width: 100%;
     height: calc(100vh - 60px);
-    background: url(../img/header.png);
+    background: url(../img/xenith2.jpg);
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -137,3 +139,27 @@ body{
 @media screen {
     
 }
+
+.pagination-container{
+    width: 100%;
+    text-align: center;
+}
+.pagination {
+    width: fit-content;
+    margin: 0 auto;
+    display: inline-block;
+    margin: 20px;
+    font-size: 1.089rem;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+} 
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+.pagination a:hover:not(.active) {background-color: #ddd;}

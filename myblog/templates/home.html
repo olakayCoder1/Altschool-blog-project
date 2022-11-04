@@ -13,8 +13,54 @@
             blog
             <span class="no-fill">writing</span>
         </h1>
-        <a href="{{url_for('posts_page')}}" class="btn">Read blogs</a>
+        <a href="#posts-list" class="btn" id="scroll-to-blog">Start Reading</a>
     </div>
 </header>
-{% endblock  %}
+<section class="blogs-section" id="posts-list" style="margin-top:30px ;">
+    {% for post in pages.items %}
+    <div class="blog-card">
+        {% if post.image %}
+        <img src="{{ post.image }}" class="blog-image" alt=""> 
+        {% else %}
+        <img src="{{ url_for('static' , filename='img/logo1.jpeg')   }}"  class="detail-author-img"/>
+        {% endif %}
+        <h1 class="blog-title">{{ post.title }}</h1>
+        <p class="blog-overview">{{ post.content|truncate(150)}}</p>
+        <a href="{{ url_for('post_details_page' , public_id=post.public_id ) }}" class="btn dark">read</a>
+        {% if post.post_author.id == current_user.id%}
+        <a href="{{ url_for('post_edit' , public_id=post.public_id ) }}" class="btn dark" style="background-color:green ;">Edit</a>
+        <a href="{{ url_for('post_delete' , public_id=post.public_id ) }}" class="btn dark" style="background-color:red ;">Delete</a>
+        {% endif %}
+    </div>    
+    {% endfor %} 
+</section>
+<div class="pagination-container">
+    <div class="pagination">
+        {% if pages.has_prev %}
+            <a href=".?page={{pages.prev_num}}">&laquo; Previous</a>
+        {% endif %}
+        {% for page in pages.iter_pages()%}
+            {% if page == pages.page %}
+            <a class="active" href=".?page={{page}}">{{ page}}</a>
+            {% else %}
+            <a href=".?page={{page}}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if pages.has_next %}
+            <a href=".?page={{pages.next_num}}">Next &raquo; </a>
+        {% endif %}
+      </div>
+</div>
 
+{% endblock  %}
+{% block script %}
+<script>
+    const btn = document.getElementById('scroll-to-blog')
+
+    btn.addEventListener('click', function goToBlog(){
+        console.log('click memememe')
+        const container = document.getElementById('meme')
+        container.style.screenY = '100px'
+    })
+</script>
+{% endblock %}

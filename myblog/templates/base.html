@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="{{ url_for('static' , filename='img/logo12.jpeg') }}" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static' , filename='css/home.css') }}">
@@ -17,8 +18,8 @@
         <img src="{{ url_for('static' , filename='img/logo12.jpeg') }}" width="100" height="50" class="logo" alt="">
         <ul class="links-container">
             <li class="link-item"><a href="/" class="link">home</a></li>
-            <li class="link-item"><a href="{{url_for('posts_page')}}" class="link">Blogs</a></li>
             {% if current_user.is_authenticated %}
+            <li class="link-item"><a href="{{url_for('posts_page')}}" class="link">Blogs</a></li>
             <li class="link-item"><a href="{{url_for('post_create')}}" class="link">Write</a></li>
             <li class="link-item"><a href="{{url_for('account')}}" class="link">Account</a></li>
             <li class="link-item"><a href="{{url_for('logout')}}" class="link">Logout</a></li>
@@ -40,16 +41,6 @@
             <a href="{{url_for('post_create')}}" class="btn">write a blog</a>
         </div>
     </header>
-
-    <!-- blog section -->
-    <section class="blogs-section">
-        <!-- <div class="blog-card">
-            <img src="img/header.png" class="blog-image" alt="">
-            <h1 class="blog-title">Lorem ipsum dolor sit amet consectetur.</h1>
-            <p class="blog-overview">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt incidunt fugiat quos porro repellat harum. Adipisci tempora corporis rem cum.</p>
-            <a href="/" class="btn dark">read</a>
-        </div> -->
-    </section>  
     {% endblock %}
     {% block script %}
     {% endblock %}

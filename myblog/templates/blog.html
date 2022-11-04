@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
 <section class="blogs-section" style="margin-top:30px ;">
-    {% for post in posts %}
+    {% for post in pages.items %}
     <div class="blog-card">
         {% if post.image %}
         <img src="{{ post.image }}" class="blog-image" alt=""> 
@@ -13,7 +13,7 @@
         <img src="{{ url_for('static' , filename='img/logo1.jpeg')   }}"  class="detail-author-img"/>
         {% endif %}
         <h1 class="blog-title">{{ post.title }}</h1>
-        <p class="blog-overview">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt incidunt fugiat quos porro repellat harum. Adipisci tempora corporis rem cum.</p>
+        <p class="blog-overview">{{ post.content|truncate(150)}}</p>
         <a href="{{ url_for('post_details_page' , public_id=post.public_id ) }}" class="btn dark">read</a>
         {% if post.post_author.id == current_user.id%}
         <a href="{{ url_for('post_edit' , public_id=post.public_id ) }}" class="btn dark" style="background-color:green ;">Edit</a>
@@ -22,4 +22,21 @@
     </div>    
     {% endfor %} 
 </section>
+<div class="pagination-container">
+    <div class="pagination">
+        {% if pages.has_prev %}
+            <a href="posts?page={{pages.prev_num}}">&laquo; Previous</a>
+        {% endif %}
+        {% for page in pages.iter_pages()%}
+            {% if page == pages.page %}
+            <a class="active" href="posts?page={{page}}">{{ page}}</a>
+            {% else %}
+            <a href="posts?page={{page}}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if pages.has_next %}
+            <a href="posts?page={{pages.next_num}}">Next &raquo; </a>
+        {% endif %}
+      </div>
+</div>
 {% endblock  %} 

@@ -3,7 +3,7 @@ from flask import render_template , redirect , url_for , flash , request
 from flask_login import login_user , logout_user , login_required
 from flask_login import login_user , current_user , logout_user , login_required
 from .forms import RegisterForm , LoginForm ,  AccountForm , PasswordResetConfirmForm , PasswordResetRequestForm
-from .models import User , Post 
+from .models import User , Post  , Token
 from werkzeug.utils import secure_filename
 from myblog.utils import authenticated_not_allowed
 from myblog.utils import MailService  , TokenService 
@@ -74,15 +74,20 @@ def account_edit():
 @app.route('/register' , methods=['POST', 'GET'])
 @authenticated_not_allowed
 def register():
+    print(Token.__dict__)
+
     form = RegisterForm()
     if form.validate_on_submit():
         username_exist = User.query.filter_by(username=form.username.data).first()
+        if form.password1.data != form.password2.data :
+            flash('Password does not match' , 'error')
+            return render_template('register.html', form=form)
         if username_exist:
-            flash('Username already exist')
+            flash('Username already exist' , 'error')
             return render_template('register.html', form=form)
         email_exist = User.query.filter_by(email=form.email.data).first()
         if email_exist:
-            flash('Email already exist')
+            flash('Email already exist' , 'error')
             return render_template('register.html', form=form)
         public_id = str(uuid.uuid4().int & (1<<64)-1)
         new_user = User(username=form.username.data , email=form.email.data , first_name=form.first_name.data , last_name=form.last_name.data , password=form.password1.data , public_id=public_id)
@@ -105,7 +110,7 @@ def login():
         if user and user.check_password(form.password.data) :
             login_user(user)
             return redirect(url_for('posts_page'))
-        flash('Invalid login credentials')
+        flash('Invalid login credentials', 'error')
     return render_template('login.html', form=form)
 
 
@@ -125,6 +130,9 @@ def password_reset_email():
         email = request.form['email']
         user = User.query.filter_by(email=email).first()
         if user:
+            print('***'*100)
+            print(user.id)
+            print('***'*100)
             ## SEND EMAIL TO USER
             token = TokenService.create_password_reset_token(user.id)
             public_id=user.public_id
@@ -136,7 +144,7 @@ def password_reset_email():
 
 
 
-@app.route('/password-reset/<token>/<user_public_id>confirm', methods=['POST', 'GET'])
+@app.route('/password-reset/<token>/<user_public_id>/confirm', methods=['POST', 'GET'])
 def password_reset_confirm(token, user_public_id ):
     form = PasswordResetConfirmForm()
     if form.validate_on_submit():
@@ -144,10 +152,11 @@ def password_reset_confirm(token, user_public_id ):
         confirm_password = request.form['password2']
         if password and confirm_password :
             if password == confirm_password :
-                if TokenService.validate_password_token(token, user_public_id ) :
+                if TokenService.validate_password_token(token , user_public_id ) :
                     user = User.query.filter_by(public_id=user_public_id ).first()
                     try:
-                        user.password_hash = password_hash=bcrypt.generate_password_hash(password).decode('utf-8')
+                        user.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+                        user.save()
                         flash('Password updated successfully')
                         return redirect(url_for('login'))
                     except:
@@ -159,7 +168,6 @@ def password_reset_confirm(token, user_public_id ):
             flash('Password does not match')
             return render_template('password-reset-confirm.html' , form=form)
     return render_template('password-reset-confirm.html' , form=form)
-
 
 
 
