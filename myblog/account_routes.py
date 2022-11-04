@@ -15,9 +15,6 @@ from threading import Thread
 @app.route('/account')
 @login_required
 def account(): 
-    print("***"*100)
-    print(request.referrer)
-    print("***"*100)  
     user = User.query.get_or_404(current_user.id)
     posts = Post.query.filter_by(author=user.id)
     return render_template('account.html', user=user , posts=posts)
@@ -74,8 +71,6 @@ def account_edit():
 @app.route('/register' , methods=['POST', 'GET'])
 @authenticated_not_allowed
 def register():
-    print(Token.__dict__)
-
     form = RegisterForm()
     if form.validate_on_submit():
         username_exist = User.query.filter_by(username=form.username.data).first()
@@ -106,7 +101,6 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        print(user)
         if user and user.check_password(form.password.data) :
             login_user(user)
             return redirect(url_for('posts_page'))
@@ -130,12 +124,11 @@ def password_reset_email():
         email = request.form['email']
         user = User.query.filter_by(email=email).first()
         if user:
-            print('***'*100)
-            print(user.id)
-            print('***'*100)
             ## SEND EMAIL TO USER
+            # creating a password reset token for user 
             token = TokenService.create_password_reset_token(user.id)
             public_id=user.public_id
+            # sending password reset email to user 
             Thread(target=MailService.send_reset_mail, kwargs={
                     'email': user.email ,'token': token , 'public_id':public_id
                 }).start()

@@ -13,15 +13,13 @@ import uuid
 def posts_page():
     posts = Post.query.order_by(Post.date_posted.desc())
     users = User.query.all()
-
     page = request.args.get('page')
-
     if page and page.isdigit():
         try:
             page = int(page)
         except:
             page = 1
-        
+    # paginating the query result to allow only six result per page 
     pages = posts.paginate(page=page , per_page=6)
     return render_template('blog.html', posts=posts , pages=pages)
 
@@ -48,10 +46,7 @@ def post_create():
         content = request.form.get('content')
         image = request.files.get('image', None)
         public_id = str(uuid.uuid4().int & (1<<64)-1)
-        new_post = Post(title=title , content=content , author=1, public_id=public_id)
-        print('****'*100)
-        print(len(image.filename))
-        print('****'*100)
+        new_post = Post(title=title , content=content , author=current_user.id , public_id=public_id)
         if len(image.filename) != 0 : 
             filename =  secure_filename(image.filename)
             name = 'posts_' + str(uuid.uuid1()) + '_' + filename
