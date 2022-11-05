@@ -98,7 +98,7 @@ def register():
             new_user.save() 
         except:
             db.session.rollback()
-        login_user(new_user)
+        login_user(new_user, remember=True)
         return redirect(url_for('posts_page'))
     return render_template('register.html', form=form)
 
@@ -110,7 +110,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.check_password(form.password.data) :
-            login_user(user)
+            login_user(user, remember=True)
             return redirect(url_for('posts_page'))
         flash('Invalid login credentials', 'error')
     return render_template('login.html', form=form)
