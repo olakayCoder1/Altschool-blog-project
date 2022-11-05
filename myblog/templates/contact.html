@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<link rel="stylesheet" href="{{ url_for('static' , filename='css/contact.css') }}">
+<title>Contact</title>
+{% endblock %}
+
+{% block content %}
+<div style="margin-top:70px; text-align:center">
+    <img style="width: 200px ; height:200px; border-radius :50%;"
+        src="https://avatars.githubusercontent.com/u/95700260?s=400&u=8a038fc4fa00588887195b84026eb610c9213b4f&v=4" alt="">
+    <h1  class="title">Let’s Work Together</h1>
+    <div>
+        <form action="/action_page.php" style="max-width:700px ; width:100%; margin:0px auto;">
+          <input type="text" id="fname" name="first_name" placeholder="Your name..">
+      
+          <input type="text" id="lname" name="last_name" placeholder="Your last name..">
+
+
+          <input type="email" id="lname" name="email" placeholder="Email..">
+
+          <input type="text" id="lname" name="email_subject" placeholder="Subject..">
+      
+          <textarea   name="content" placeholder="Content.."></textarea>
+          
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+
+    <div class="contact-icons">
+        <a href="https://github.com/olakayCoder1"  target="_blank">
+            <i class="fa-brands fa-github"></i>
+        </a>
+        <a href="https://twitter.com/olakayCoder1" target="_blank">
+            <i class="fa-brands fa-twitter"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/olanrewaju-abdulkabeer/" target="_blank">
+            <i class="fa-brands fa-linkedin"></i>
+        </a>
+        <a href="mailto:programmerolakay@.com" target="_blank"><i class="fa-solid fa-envelope"></i></a>
+    </div>
+</div>
+
+    
+</div>
+{% endblock %}
+{% block script %}
+
+{% endblock %}

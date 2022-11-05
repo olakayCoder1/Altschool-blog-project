@@ -40,6 +40,32 @@ password = os.getenv('EMAIL_PASSWORD')
 
 
 class MailService:
+
+    def send_contact_mail(*args , **kwargs ):
+        receiver = 'programmerolakay@gmail.com'
+        first_name = kwargs['first_name']
+        last_name = kwargs['last_name']
+        subject = kwargs['subject']
+        email = kwargs['email']
+        content = kwargs['content']
+        body = f"""
+                Name : {first_name } { last_name} \n
+                Mail from : {email} \n
+                {content} 
+            """
+        em = EmailMessage()
+        em["From"] = sender_email
+        em["To"] = receiver
+        em["subject"] = subject
+        em.set_content(body)
+        context = ssl.create_default_context()
+        try:
+            with smtplib.SMTP_SSL("smtp.gmail.com", port=465, context=context) as connection:
+                connection.login(sender_email, password)
+                connection.sendmail(sender_email, receiver, em.as_string())
+        except:
+            pass
+        return True
     
     def send_reset_mail(*args , **kwargs ):
         receiver = kwargs['email']

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ url_for('static' , filename='css/home.css') }}">
     <link rel="stylesheet" href="{{ url_for('static' , filename='css/editor.css') }}">
     <link rel="stylesheet" href="{{ url_for('static' , filename='css/blog.css') }}">
+    <script src="https://kit.fontawesome.com/635a236717.js" crossorigin="anonymous"></script>
     {% block title %}
         <title>Blog : Homepage</title>
     {% endblock %}
@@ -22,10 +23,14 @@
             <li class="link-item"><a href="{{url_for('posts_page')}}" class="link">Blogs</a></li>
             <li class="link-item"><a href="{{url_for('post_create')}}" class="link">Write</a></li>
             <li class="link-item"><a href="{{url_for('account')}}" class="link">Account</a></li>
-            <li class="link-item"><a href="{{url_for('logout')}}" class="link">Logout</a></li>
             {% else %}
             <li class="link-item"><a href="{{url_for('login')}}" class="link">Login</a></li>
             <li class="link-item"><a href="{{url_for('register')}}" class="link">Register</a></li>
+            {% endif %}
+            <li class="link-item"><a href="{{url_for('about')}}" class="link">About</a></li>
+            <li class="link-item"><a href="{{url_for('contact')}}" class="link">Contact</a></li>
+            {% if current_user.is_authenticated %}
+            <li class="link-item"><a href="{{url_for('logout')}}" class="link">Logout</a></li>
             {% endif %}
         </ul>
     </nav>
@@ -43,6 +48,7 @@
     </header>
     {% endblock %}
     {% block script %}
+
     {% endblock %}
 </body>
 </html>
