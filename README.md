@@ -26,6 +26,7 @@ The Blog should have a Home Page, About Page, Contact Page, the Blog application
 - Authentication and authorization 
 - Two factor authentication  ( pending)
 - Password reset 
+- Pagination 
 - View , create , update and delete post 
 - Add image to post  
 - Add profile image 
@@ -38,6 +39,7 @@ The Blog should have a Home Page, About Page, Contact Page, the Blog application
 | ```/login``` | _Login user_| _Any_|
 | ```/logout``` | _Logout user_| _Authenticated user_|
 | ```/password-reset``` | _Request password reset_| _Any_|
+| ```/password-reset``` | _ Change password_| _Authenticated user_|
 | ```/password-reset/<token>/<public_id>``` | _Confirm password reset & create new password_| _Any_|
 | ```/``` | _Home page_| _Any_|
 | ```/posts``` | _Get a posts_| _Authenticated user_|
@@ -48,3 +50,5 @@ The Blog should have a Home Page, About Page, Contact Page, the Blog application
 | ```/account``` | _User account_| _Authenticated user_|
 | ```/account/edit``` | _Edit account_| _Authenticated user_|
 | ```/account/delete``` | _Delete account_| _Authenticated user_|
+| ```/contact``` | _Contact _| _Any_|
+| ```/about``` | _About xenith_| _Any_|

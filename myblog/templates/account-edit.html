@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block title %}
+<link rel="stylesheet" href="{{ url_for('static' , filename='css/contact.css') }}">
+
 <link rel="stylesheet" href="{{ url_for('static' , filename='css/account.css') }}">
 <title>Profile Edit</title>
 {% endblock %}
@@ -55,7 +57,16 @@
    </form>
    
 </div>
-    
+
+
+<div style="margin-bottom:70px; text-align:center">
+    <h1 class="title">Change Password</h1>
+    <form method="post" action="{{url_for('password_change')}}" style="max-width:700px ; width:100%; margin:0px auto;">
+          <input type="password" id="fname" name="password1" placeholder="Enter password">
+          <input type="password" id="lname" name="password2" placeholder="Confirm password">
+          <input type="submit" value="Change Password">
+        </form>
+    </div>
 </div>
 {% endblock %}
 {% block script %}

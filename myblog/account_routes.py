@@ -17,7 +17,15 @@ from threading import Thread
 def account(): 
     user = User.query.get_or_404(current_user.id)
     posts = Post.query.filter_by(author=user.id)
-    return render_template('account.html', user=user , posts=posts)
+    page = request.args.get('page')
+    if page and page.isdigit():
+        try:
+            page = int(page)
+        except:
+            page = 1
+    # paginating the query result to allow only six result per page 
+    pages = posts.paginate(page=page , per_page=6)
+    return render_template('account.html', user=user , pages=pages)
 
 
 @app.route('/account/edit' ,  methods=['POST', 'GET'])
@@ -162,6 +170,30 @@ def password_reset_confirm(token, user_public_id ):
             flash('Password does not match')
             return render_template('password-reset-confirm.html' , form=form)
     return render_template('password-reset-confirm.html' , form=form)
+
+
+@app.route('/password-change', methods=['POST'])
+@login_required
+def password_change():
+    if request.method == 'POST':
+        password = request.form['password1']
+        confirm_password = request.form['password2']
+        if password and confirm_password :
+            if password == confirm_password :
+                user = User.query.get(current_user.id )
+                user.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+                try:
+                    user.save()
+                    flash('Password updated successfully', 'success')
+                    logout_user()
+                    return redirect(url_for('login'))
+                except:
+                    db.session.rollback()
+                    flash('Password reset token is invalid')
+                    return redirect(request.referrer)
+            flash('Password does not match')
+            return redirect(request.referrer)
+    return redirect(request.referrer)
 
 
 
