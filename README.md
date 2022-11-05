@@ -50,5 +50,5 @@ The Blog should have a Home Page, About Page, Contact Page, the Blog application
 | ```/account``` | _User account_| _Authenticated user_|
 | ```/account/edit``` | _Edit account_| _Authenticated user_|
 | ```/account/delete``` | _Delete account_| _Authenticated user_|
-| ```/contact``` | _Contact _| _Any_|
+| ```/contact``` | _Contact_| _Any_|
 | ```/about``` | _About xenith_| _Any_|
