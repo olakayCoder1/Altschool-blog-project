@@ -1,5 +1,9 @@
 # Altschool Second Semester Examination Project
 
+
+![image](https://user-images.githubusercontent.com/95700260/200096389-0da5ce67-3664-4a0f-b3a0-041f2c7fb21a.png)
+
+
 ### OVERVIEW
 
 You need to create a blogging app. The fundamental concept is that anyone visiting the website should be able to read a blog post written by them or another user because the app has a landing page that lists a variety of articles written by different authors.
