@@ -35,8 +35,8 @@ def account_edit():
     if request.method == 'POST':
         user = User.query.get(current_user.id)
         username = request.form.get('username', None)
-        last_name = request.form.get('last_name', None)
-        first_name = request.form.get('first_name', None)
+        user.last_name = request.form.get('last_name', None)
+        user.first_name = request.form.get('first_name', None)
         email = request.form.get('email', None)
         image = request.files.get('image', None)
 
