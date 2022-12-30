@@ -10,7 +10,7 @@ Zenith is a blogging website,The following are the stack used in creating this p
 - Python (Flask)
 
 ## Environment setup
-To run this website locally on your system make sure you have python install on your device. The list of packages that this project required can be found [here] (https://github.com/olakayCoder1/Altschool-blog-project/blob/main/requirements.txt).
+To run this website locally on your system make sure you have python install on your device. The list of packages that this project required can be found [here](https://github.com/olakayCoder1/Altschool-blog-project/blob/main/requirements.txt).
 
 ```sh
 mkdir <folder name>
