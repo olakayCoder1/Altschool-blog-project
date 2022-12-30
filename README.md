@@ -75,11 +75,21 @@ The following are the stack used in creating this projects:
 ## Environment setup
 To run this website locally on your system make sure you have python install on your device. The list of packages that this project required can be found [here] (https://github.com/olakayCoder1/Altschool-blog-project/blob/main/requirements.txt).
 
-``` mkdir <folder name>``` in this case I will call it zenith. ``` mkdir zenith ```
-navigate to the newly created folder ``` cd <folder name> ``` .ie ```cd zenith ```
+```sh
+mkdir <folder name>
+``` 
+in this case I will call it zenith. ```mkdir zenith```
+
+navigate to the newly created folder 
+```sh
+cd <folder name> 
+``` 
+.ie ```cd zenith ```
 
 clone the projects
-``` git clone https://github.com/olakayCoder1/Altschool-blog-project . ```
+```sh
+git clone https://github.com/olakayCoder1/Altschool-blog-project . 
+```
 as you can see I added a dot (.) at the end, this will make the project be cloned in the current directory.
 
 ### folder structure after cloning
@@ -109,4 +119,11 @@ as you can see I added a dot (.) at the end, this will make the project be clone
 └── run.py
 ```
 
+- #### migrations
+  - This folder contains the database migration history
+- #### myblog
+  - This folder contain the project engine, which are:
+    - ##### static
+      - This contain both the static files( html, css , img ) and 
+      - The media files ( upload file by user )
 
