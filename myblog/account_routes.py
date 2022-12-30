@@ -93,7 +93,13 @@ def register():
             flash('Email already exist' , 'error')
             return render_template('register.html', form=form)
         public_id = str(uuid.uuid4().int & (1<<64)-1)
-        new_user = User(username=form.username.data , email=form.email.data , first_name=form.first_name.data , last_name=form.last_name.data , password=form.password1.data , public_id=public_id)
+        new_user = User(username=form.username.data , 
+            email=form.email.data , 
+            first_name=form.first_name.data , 
+            last_name=form.last_name.data , 
+            password=form.password1.data , 
+            public_id=public_id
+        )
         try:
             new_user.save() 
         except:
