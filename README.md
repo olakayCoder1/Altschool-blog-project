@@ -123,7 +123,33 @@ as you can see I added a dot (.) at the end, this will make the project be clone
   - This folder contains the database migration history
 - #### myblog
   - This folder contain the project engine, which are:
-    - ##### static
+    - #### static
       - This contain both the static files( html, css , img ) and 
       - The media files ( upload file by user )
+    -  #### templates
+       -  This contain the html files
+    -  #### __init__.py
+       -  This make the current directory a package
+    - #### account_routes.py
+      - The file for the user account routes
+    - #### forms.py
+      - The file that hold the forms used in the project
+    - #### models.py
+      - The file that contain the database base schema in python format ( class)
+    - #### post_routes.py
+      - The file that contain the post/blog routes
+    - #### utils.py
+      - The file contain utility function that are reused throughout the project
+- #### .flaskenv
+  - This file contain the environmental variable config  
+- #### .gitignore
+  - This file contain the list of ignore files( files that should not be inclusive in github)
+-  #### configurations.py
+   -  This file contains the project status ( development/ production/testing)
+- #### README.py
+  - This file contains the description fo the projects
+- #### requirements.txt
+  - This file contains the necessary packages required to run this project
+- #### run.py
+  - This file handles the running of the server
 
