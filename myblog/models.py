@@ -9,6 +9,14 @@ def load_user(user_id):
     return User.get(user_id)
 
 
+
+
+followers = db.Table('followers',
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
+)
+
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer(), primary_key=True)
     public_id = db.Column(db.String(50), unique=True)
@@ -20,6 +28,11 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(64) , nullable=False )
     created_at = db.Column(db.DateTime() , nullable=False , default=datetime.utcnow)
     post = db.relationship('Post', backref='post_author', lazy=True) 
+    followed = db.relationship(
+        'User', secondary=followers,
+        primaryjoin=(followers.c.follower_id == id),
+        secondaryjoin=(followers.c.followed_id == id),
+        backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
 
 
     @classmethod
@@ -57,6 +70,29 @@ class User(db.Model, UserMixin):
 
     def __repr__(self) -> str:
         return self.email
+
+
+    
+    def follow(self, user):
+        if not self.is_following(user):
+            self.followed.append(user)
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.followed.remove(user)
+
+    def is_following(self, user):
+        return self.followed.filter(
+            followers.c.followed_id == user.id).count() > 0
+
+
+
+    # def followed_users(self):
+    #     return User.query.join(
+    #         followers, (followers.c.followed_id == User.user_id)).filter(
+    #             followers.c.follower_id == self.id).order_by(
+    #                 User.timestamp.desc())
+
 
 
 

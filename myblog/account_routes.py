@@ -6,7 +6,7 @@ from .forms import RegisterForm , LoginForm ,  AccountForm , PasswordResetConfir
 from .models import User , Post  , Token
 from werkzeug.utils import secure_filename
 from myblog.utils import authenticated_not_allowed
-from myblog.utils import MailService  , TokenService 
+from myblog.utils import MailService  , TokenService   
 import os
 import uuid
 from threading import Thread

@@ -56,3 +56,57 @@ The Blog should have a Home Page, About Page, Contact Page, the Blog application
 | ```/account/delete``` | _Delete account_| _Authenticated user_|
 | ```/contact``` | _Contact_| _Any_|
 | ```/about``` | _About xenith_| _Any_|
+
+
+
+
+
+
+# (Zenith ) Simple Blog App With Flask
+
+Zenith is a blogging website, with zenith you can get.
+
+The following are the stack used in creating this projects:
+- Html/css
+- Javascript
+- Python (Flask)
+
+
+## Environment setup
+To run this website locally on your system make sure you have python install on your device. The list of packages that this project required can be found [here] (https://github.com/olakayCoder1/Altschool-blog-project/blob/main/requirements.txt).
+
+``` mkdir <folder name>``` in this case I will call it zenith. ``` mkdir zenith ```
+navigate to the newly created folder ``` cd <folder name> ``` .ie ```cd zenith ```
+
+clone the projects
+``` git clone https://github.com/olakayCoder1/Altschool-blog-project . ```
+as you can see I added a dot (.) at the end, this will make the project be cloned in the current directory.
+
+### folder structure after cloning
+
+```
+├── migrations
+├── myblog
+│   └── static
+|   |   └── css
+|   |   └── img
+|   |   └── uploads
+|   |   └── js
+|   └── template
+|        └── (html files)
+|   └── __init__.py
+|   └── account_routes.py
+|   └── forms.py
+|   └── models.py
+|   └── post_routes.py
+|   └── routes.py
+|   └── utils.py
+├── .flaskenv
+├── .gitignore
+├── configurations.py
+├── README.md
+├── requirements.txt
+└── run.py
+```
+
+
